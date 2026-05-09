@@ -1,5 +1,3 @@
-
-    
 from db import get_connection
 import logging
 

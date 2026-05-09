@@ -39,8 +39,8 @@ todo-cli/
 
 1. 克隆项目到本地
    ```bash
-   git clone [你的仓库地址]
-   cd [你的项目文件夹名]
+   git clone [https://github.com/040213w-droid/代办事项]
+   cd [待办事项]
     ```
 2. 运行程序
     ```bash

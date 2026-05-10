@@ -23,6 +23,7 @@ menu = """
     4. 删除任务
     5. 修改任务内容
     6. 退出
+    7.取消完成任务
 **********************************************
 """
 
@@ -43,7 +44,7 @@ while True:
             print("📭 暂无待办事项。")
         else:
             for row in todos:
-                status = "✓ 已完成" if row['completed'] else "✗ 未完成"
+                status = "✓ 已完成" if row['completed'] else "✗ 未完成"   #Python 里0等于False，1等于True所以if row['completed']
                 print(f"ID:{row['id']} | {row['title']} | {status} | 创建时间:{row['created_at']}")
     
     elif choice == '3':
@@ -87,7 +88,7 @@ while True:
             continue
         # 先查一下原内容
         todos = crud.list_todos()
-        target = None
+        target = None  #是“标记变量”，表示“还没找到匹配的任务”
         for t in todos:
             if t['id'] == int(todo_id):
                 target = t
@@ -106,5 +107,17 @@ while True:
         print("感谢使用，再见！")
         break
     
+    elif choice == '7':
+        todo_id = input("请输入要取消完成任务的id:")
+        if not todo_id.isdigit():
+            print("请输入有效数字")
+            continue
+        if crud.uncomplete_todo(int(todo_id)):
+            print(f"取消完成成功{todo_id}")
+        else:
+            print("取消失败")
+
+
+
     else:
-        print("⚠️ 输入错误,请输入1-6之间的数字。")
+        print("⚠️ 输入错误,请输入1-7之间的数字。")

@@ -19,7 +19,7 @@ def list_todos():
     try:
         with get_connection() as conn:
             rows = conn.execute(
-                "SELECT * FROM todos ORDER BY id"
+                "SELECT * FROM todos ORDER BY id"  #查找全部按id排序
             ).fetchall()
         return rows
     except Exception as e:
@@ -88,3 +88,23 @@ def update_todo(todo_id, new_title):
     except Exception as e:
         logging.error(f"修改任务时出错: {e}")
         return False
+    
+def uncomplete_todo(todo_id):
+    try:
+        with get_connection() as conn:
+            # 先检查任务是否存在
+            row = conn.execute(
+                "SELECT * FROM todos WHERE id = ?", (todo_id,)
+            ).fetchone()
+            if row is None:
+                return  False  # 不存在就返回
+
+            # 更新完成状态
+            conn.execute(
+                "UPDATE todos SET completed = 0 WHERE id = ?", (todo_id,)
+            )
+        logging.info(f"取消完成任务成功: id={todo_id}")
+        return True         # 成功返回
+    except Exception as e:
+        logging.error(f"取消完成任务时出错: {e}")
+        return False          # 异常时返
